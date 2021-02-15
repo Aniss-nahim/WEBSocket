@@ -34,7 +34,7 @@ void main(int argc, char * argv[]){
     bind(serverSocket, (struct sockaddr*) &serveradd , sizeof(serveradd));
 
     // Listening
-    listen(serverSocket, SOMAXCONN); // SOMAXCONN 
+    listen(serverSocket, 1); // SOMAXCONN 
 
     // Wait for connexion
     SOCKET clientSocket;

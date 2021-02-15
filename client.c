@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<ws2tcpip.h>
 
-#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib,"Ws2_32.lib")
 
 void main (int argc, char * argv[]){
     // inistialize winsock
@@ -24,14 +24,13 @@ void main (int argc, char * argv[]){
         printf("Can't create client socket, exit !\n");
         exit(2);
     }
-
-    // connect 
     struct sockaddr_in serveraddr;
     serveraddr.sin_family = AF_INET;
     serveraddr.sin_port = htons(1500);
     serveraddr.sin_addr.S_un.S_addr = INADDR_ANY;
 
-    int connection =  connect(clientSocket, (struct sockaddr*) &clientSocket, sizeof(clientSocket));
+    // connect 
+    int connection =  connect(clientSocket, (struct sockaddr*) &serveraddr, sizeof(serveraddr));
 
     if(connection == -1){
         printf("Can't connect the two sockets, exit !\n");

@@ -4,7 +4,7 @@
 
 #pragma comment(lib,"Ws2_32.lib")
 
-void main(int argc, char * argv){
+void main(int argc, char * argv[]){
    
     // Initialize winsock
     WSADATA wsData;
@@ -37,20 +37,22 @@ void main(int argc, char * argv){
     listen(serverSocket, SOMAXCONN); // SOMAXCONN 
 
     // Wait for connexion
-    
-    // Close listening socket
-    closesocket(serverSocket);
+    SOCKET clientSocket;
+    clientSocket = accept(serverSocket, NULL, NULL);
 
-    // Loop : accept and echo message back to client
-
-
-    // Close socket
+    // send message to client
+    char response[256] = "You have requested to this server !";
+    send(clientSocket, response, sizeof(response), 0);
 
 
     // Shutdown winsock
+    shutdown(serverSocket, SD_RECEIVE);
+    // 0 : SD_RECEIVE
+    // 1 : SD_SEND
+    // 2 : SD_BOTH
 
-}
+    // Close socket
+    closesocket(serverSocket);
 
-void init(){
-    printf("Hello this is init methode ! \n");
+    return;
 }

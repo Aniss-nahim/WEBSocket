@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<ws2tcpip.h>
+#include <unistd.h>
+#include<winsock.h>
 
 #pragma comment(lib,"Ws2_32.lib")
 
@@ -26,19 +27,29 @@ void main(int argc, char * argv[]){
     }
 
     // Bind the socket to an ip address and port
+    int portNumber = 8000;
+    char ipAddress[10] = "127.0.0.1";
     struct sockaddr_in serveradd;
     serveradd.sin_family = AF_INET;
-    serveradd.sin_port = htons(1500); // host to network short
-    serveradd.sin_addr.S_un.S_addr = INADDR_ANY;
+    serveradd.sin_port = htons(portNumber); // host to network short
+    serveradd.sin_addr.S_un.S_addr = inet_addr(ipAddress);
 
     bind(serverSocket, (struct sockaddr*) &serveradd , sizeof(serveradd));
 
-    // Listening
-    listen(serverSocket, 1); // SOMAXCONN 
+    // Listening, one connection is allowed 
+    int listening = listen(serverSocket, 1); // SOMAXCONN 
 
-    // Wait for connexion
+    if(listening != -1){
+        printf("Server listening on port %d\n", portNumber);
+    }
+
+    // Accept connection
     SOCKET clientSocket;
     clientSocket = accept(serverSocket, NULL, NULL);
+
+    if(clientSocket){
+        printf("Client is connected ... \n");
+    }
 
     // send message to client
     char response[256] = "You have requested to this server !";

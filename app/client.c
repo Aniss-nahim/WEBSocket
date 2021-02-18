@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<ws2tcpip.h>
+#include<winsock.h>
 
 #pragma comment(lib,"Ws2_32.lib")
 
@@ -24,16 +24,22 @@ void main (int argc, char * argv[]){
         printf("Can't create client socket, exit !\n");
         exit(2);
     }
+
+    // server ip address and port 
+    int portNumber = 8000;
+    char ipAddress[10] = "127.0.0.1";
     struct sockaddr_in serveraddr;
     serveraddr.sin_family = AF_INET;
-    serveraddr.sin_port = htons(1500);
-    serveraddr.sin_addr.S_un.S_addr = INADDR_ANY;
+    serveraddr.sin_port = htons(8000);
+    serveraddr.sin_addr.S_un.S_addr = inet_addr(ipAddress);
 
-    // connect 
-    int connection =  connect(clientSocket, (struct sockaddr*) &serveraddr, sizeof(serveraddr));
+    // connect to server
+    int connection =  connect(clientSocket, (struct sockaddr*) &serveraddr, sizeof(struct sockaddr));
 
     if(connection == -1){
-        printf("Can't connect the two sockets, exit !\n");
+        printf("connection error : %ld \n",WSAGetLastError());
+        printf("Can't connect to the server, exit !\n");
+        closesocket(clientSocket);
         exit(3);
     }
 

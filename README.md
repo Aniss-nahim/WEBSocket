@@ -4,7 +4,7 @@
 
 > On which platforme show i run this project ?
 
-This project is can only run on **Windows OS** machines, and that's because **Web Sockets** are a down level utilities,  used to establish communication between to nodes.
+This project is can only run on **Windows OS** machines, and that's because **Web Sockets** are a down level utilities,  used two establish communication between to nodes.
 
 > Environment setup :
 

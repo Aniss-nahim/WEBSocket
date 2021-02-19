@@ -14,18 +14,18 @@ Now before compiling your project you should set up your environment :
 
 > How to compile and run the project
 
-Inside the project folder there are two files, [server.c](https://github.com/Aniss-nahim/WEBSocket/blob/master/server.c) which basiclly defines the server socket and builds up the server and we have also [client.c](https://github.com/Aniss-nahim/WEBSocket/blob/master/client.c) file which configures the client socket and connect to the server in order to start sending requests.
+Inside the project folder there are two files, [./app/server.c](https://github.com/Aniss-nahim/WEBSocket/blob/master/server.c) which basiclly defines the server socket and builds up the server and we have also [./app/client.c](https://github.com/Aniss-nahim/WEBSocket/blob/master/client.c) file which configures the client socket and connect to the server in order to start sending requests.
 
 1. Compile __server.c__ file
 
 ```bash
-gcc server.c -o server -lws2_32
+gcc app/server.c -o server -lws2_32 -ladvapi32
 ```
 
 2. Compile __client.c__ file
 
 ```bash
-gcc client.c -o client -lws2_32
+gcc app/client.c -o client -lws2_32 -ladvapi32
 ```
 
 3. Run the __server.exe__ program first by executing the following command :

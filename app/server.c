@@ -60,8 +60,8 @@ void main(int argc, char * argv[]){
     int data_len;
     while( (data_len = recv(clientSocket, clientRequest, sizeof(clientRequest), 0)) > 0){
         printf("client : %s\n", clientRequest);
-        strcpy(response, clientRequest);
-        send(clientSocket, response, sizeof(clientRequest), 0);
+        printf("server : "); gets(response);
+        send(clientSocket, response, sizeof(response), 0);
         memset(clientRequest, 0, sizeof(clientRequest));
         memset(response, 0, sizeof(response));
     }

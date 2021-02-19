@@ -43,6 +43,8 @@ void main (int argc, char * argv[]){
         exit(3);
     }
 
+    printf("You are connected to the server with ip : %s\n", inet_ntoa(serveraddr.sin_addr));
+
     // recieve data from  the server
     char my_request[256] = "Hello server !";
     char response_server[256];
@@ -53,6 +55,7 @@ void main (int argc, char * argv[]){
         recv(clientSocket, response_server, sizeof(response_server), 0);
         printf("server : %s\n", response_server);
         memset(response_server, 0,sizeof(response_server));
+        printf("client : ");
         gets(my_request);
     }
 

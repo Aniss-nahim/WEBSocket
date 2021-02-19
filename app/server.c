@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include <unistd.h>
+#include <string.h>
 #include<winsock.h>
 
 #pragma comment(lib,"Ws2_32.lib")
@@ -37,7 +37,7 @@ void main(int argc, char * argv[]){
     bind(serverSocket, (struct sockaddr*) &serveradd , sizeof(serveradd));
 
     // Listening, one connection is allowed 
-    int listening = listen(serverSocket, 1); // SOMAXCONN 
+    int listening = listen(serverSocket, 2); // SOMAXCONN 
 
     if(listening != -1){
         printf("Server listening on port %d\n", portNumber);
@@ -45,16 +45,28 @@ void main(int argc, char * argv[]){
 
     // Accept connection
     SOCKET clientSocket;
-    clientSocket = accept(serverSocket, NULL, NULL);
+    struct sockaddr_in clientadd;
+    clientSocket = accept(serverSocket, (struct sockaddr*) &clientadd, NULL);
 
-    if(clientSocket){
-        printf("Client is connected ... \n");
+    if(clientSocket != -1){
+        printf("Client is connecting ... \n");
     }
 
-    // send message to client
-    char response[256] = "You have requested to this server !";
-    send(clientSocket, response, sizeof(response), 0);
+    printf("Client with ip : %s , is connected\n", inet_ntoa(clientadd.sin_addr));
 
+    // send message to client
+    char clientRequest[256];
+    char response[256];
+    int data_len;
+    while( (data_len = recv(clientSocket, clientRequest, sizeof(clientRequest), 0)) > 0){
+        printf("client : %s\n", clientRequest);
+        strcpy(response, clientRequest);
+        send(clientSocket, response, sizeof(clientRequest), 0);
+        memset(clientRequest, 0, sizeof(clientRequest));
+        memset(response, 0, sizeof(response));
+    }
+    
+    printf("Client disconnected !\n");
 
     // Shutdown winsock
     shutdown(serverSocket, SD_RECEIVE);

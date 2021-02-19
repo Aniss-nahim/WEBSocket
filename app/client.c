@@ -37,17 +37,26 @@ void main (int argc, char * argv[]){
     int connection =  connect(clientSocket, (struct sockaddr*) &serveraddr, sizeof(struct sockaddr));
 
     if(connection == -1){
-        printf("connection error : %ld \n",WSAGetLastError());
+        printf("connection error : %ld \n", WSAGetLastError());
         printf("Can't connect to the server, exit !\n");
         closesocket(clientSocket);
         exit(3);
     }
 
     // recieve data from  the server
+    char my_request[256] = "Hello server !";
     char response_server[256];
-    recv(clientSocket, response_server, sizeof(response_server), 0);
+    int data_len;
 
-    printf("server : %s", response_server);
+    while( (data_len = send(clientSocket, my_request, sizeof(my_request), 0)) > 0){
+        memset(my_request, 0,sizeof(my_request));
+        recv(clientSocket, response_server, sizeof(response_server), 0);
+        printf("server : %s\n", response_server);
+        memset(response_server, 0,sizeof(response_server));
+        gets(my_request);
+    }
+
+    printf("server is down : error 500 \n");
 
     // Shutdown
     shutdown(clientSocket, 2);
